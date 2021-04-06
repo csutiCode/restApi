@@ -16,4 +16,5 @@ public interface ServiceRepository extends JpaRepository<ServiceAccount, Long> {
 
     List<ServiceAccount> findByCityId(long id);
 
+    List<ServiceAccount> findByCategoryId(long categoryId);
 }

@@ -6,13 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import serviceRest.dto.LoginRequest;
 import serviceRest.dto.RegisterRequest;
-import serviceRest.exceptions.InvalidRequestException;
 import serviceRest.service.AuthService;
 import serviceRest.utils.validation.RegisterRequestValidator;
-
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+
 
 
 @RestController
@@ -25,15 +23,9 @@ public class AuthController {
     @Autowired
     private RegisterRequestValidator validator;
 
-
     @PostMapping("/signup")
-    public ResponseEntity signupWithValidation( @Valid @RequestBody RegisterRequest request) throws IOException {
-        if (isValid(request)) {
-            authService.signUp(request);
-            return new ResponseEntity(HttpStatus.OK);
-        } else {
-            throw new InvalidRequestException("Password not equal, Email used or not an adult");
-        }
+    public ResponseEntity<String> signupWithValidation(@Valid @RequestBody RegisterRequest request) throws IOException {
+        return returnValidationState(request);
     }
 
     @GetMapping("/signup/create")
@@ -46,20 +38,25 @@ public class AuthController {
         return authService.login(loginRequest);
     }
 
-    public boolean isValid(RegisterRequest request) {
-        return validator.isValidRequest(request);
+
+    //TODO: make it correct
+    public ResponseEntity<String> returnValidationState(RegisterRequest request) {
+        switch (validator.returnValidationState(request)) {
+            case E_MAIL_USED:
+                return new ResponseEntity("E-Mail already used", HttpStatus.BAD_REQUEST);
+            case PASSWORDS_NOT_EQUAL:
+                return new ResponseEntity("Passwords should be equal", HttpStatus.BAD_REQUEST);
+            case NOT_AN_ADULT:
+                return new ResponseEntity("Should be an adult", HttpStatus.BAD_REQUEST);
+            case SUCCESS:
+                authService.signUp(request);
+                return new ResponseEntity("Registration successful", HttpStatus.OK);
+            default:
+                throw new UnknownError();
+
+        }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
 }
+
+

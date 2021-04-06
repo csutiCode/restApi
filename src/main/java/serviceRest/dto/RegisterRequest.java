@@ -1,7 +1,12 @@
 package serviceRest.dto;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.util.Date;
 
 
 public class RegisterRequest {
@@ -12,8 +17,10 @@ public class RegisterRequest {
     @NotBlank(message = "Invalid password")
     private String password;
     private String confirmedPassword;
-    //private LocalDate createdOn = LocalDate.now();
-    //private LocalDate dateOfBirth;
+    private LocalDate createdOn = LocalDate.now();
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "Please provide a date in format:  yyyy-MM-dd")
+    private LocalDate dateOfBirth;
 
     public RegisterRequest() {
 
@@ -46,5 +53,21 @@ public class RegisterRequest {
 
     public void setConfirmedPassword(String confirmedPassword) {
         this.confirmedPassword = confirmedPassword;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public LocalDate getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(LocalDate createdOn) {
+        this.createdOn = createdOn;
     }
 }

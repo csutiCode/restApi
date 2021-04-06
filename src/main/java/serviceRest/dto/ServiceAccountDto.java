@@ -4,6 +4,7 @@ import serviceRest.model.User;
 
 import javax.persistence.Lob;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class ServiceAccountDto {
 
@@ -17,7 +18,8 @@ public class ServiceAccountDto {
     private String pictureUrl;
     private String city;
     private String category;
-
+    private Date dateOfBirth;
+    private Date createdOn;
     private User user;
 
 
@@ -107,5 +109,21 @@ public class ServiceAccountDto {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public Date getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
     }
 }

@@ -88,13 +88,7 @@ public class ServiceAccountService {
         }
         return user;
     }
-    /*
-    //Get the city from database
-    public City findCityByName(String name) {
-        System.out.println();
-        return cityRepository.findCityByName(name);
-    }
-    */
+
     //Get the category from database
     public Category findCategoryByName(String name) {
         return categoryRepository.findByName(name);
@@ -112,5 +106,9 @@ public class ServiceAccountService {
 
     public List<ServiceAccount> findServicesByCityId(long id) {
         return serviceRepository.findByCityId(id);
+    }
+
+    public List<ServiceAccount> findServicesByCategoryId(long categoryId) {
+        return serviceRepository.findByCategoryId(categoryId);
     }
 }

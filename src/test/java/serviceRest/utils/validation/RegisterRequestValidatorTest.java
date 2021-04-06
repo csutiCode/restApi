@@ -1,33 +1,31 @@
 package serviceRest.utils.validation;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.MockMvc;
-import serviceRest.controller.AuthController;
-import serviceRest.dto.RegisterRequest;
+import java.time.LocalDate;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
-
 @SpringBootTest
-@AutoConfigureMockMvc
 public class RegisterRequestValidatorTest {
 
     @Autowired
-    private MockMvc mvc;
+    private RegisterRequestValidator validator;
 
-    @Autowired
-    private AuthController authController;
-
-
-    @Test
-    public void shouldValidate() {
-
-        RegisterRequest request = new RegisterRequest("email","password");
+    @ParameterizedTest
+    @ValueSource(strings = {"1991-10-08", "1956-12-04","2012-12-02"})
+    public void isAdultTest(String stringDate) {
+        LocalDate birthDate = LocalDate.parse(stringDate);
+        assertThat(validator.isAdult(birthDate));
 
     }
+
 
 
 }
